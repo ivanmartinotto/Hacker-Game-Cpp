@@ -7,24 +7,23 @@ int main() {
     int detectionRisk = 50;
     
     while (detectionRisk > 0) {
+        if (detectionRisk > 99){
+            cout << "GAME OVER! Você foi detectado e perdeu todo seu dinheiro.";
+            exit(0);
+        }
         cout << "\nSaldo: $" << money << " | Risco de Detecção: " << detectionRisk << "%\n";
+        displayTasks(taskQueue);
         cout << "1. Adicionar tarefa aleatória\n2. Executar tarefa\n3. Sair\nEscolha: ";
         int choice;
         cin >> choice;
         
-        if (detectionRisk < 100) {
-            if (choice == 1) {
-                addRandomTask(taskQueue);
-                detectionRisk += 10;
-            } else if (choice == 2) {
-                processTasks(taskQueue, money, detectionRisk);
-            } else {
-                break;
-            }
+        if (choice == 1) {
+            addRandomTask(taskQueue);
+            detectionRisk += rand() % 11;
+        } else if (choice == 2) {
+            processTasks(taskQueue, money, detectionRisk);
         } else {
-            money = 0;
-            cout << "Você foi detectado!!! Saldo final: $" << money << "\n";
-            exit(0);
+            break;
         }
     }
     

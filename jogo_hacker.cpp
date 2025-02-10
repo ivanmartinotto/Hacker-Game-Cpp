@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <iomanip>
 
 using namespace std;
 
@@ -29,13 +30,31 @@ void addRandomTask(priority_queue<Task>& taskQueue) {
     cout << "Nova tarefa adicionada: " << name << " (Prioridade: " << priority << ")\n";
 }
 
+void displayTasks(priority_queue<Task> taskQueue) {
+    if (taskQueue.empty()) {
+        cout << "Nenhuma tarefa pendente.\n";
+        return;
+    }
+    
+    cout << "\nLista de Tarefas:\n";
+    cout << left << setw(25) << "Tarefa" << setw(12) << "Prioridade" << setw(15) << "Recompensa ($)" << "Tempo Restante" << "\n";
+    cout << "----------------------------------------------------------\n";
+    
+    while (!taskQueue.empty()) {
+        Task task = taskQueue.top();
+        taskQueue.pop();
+        cout << left << setw(25) << task.name << setw(12) << task.priority << setw(15) << task.reward << task.timeRemaining << "\n";
+    }
+    cout << "----------------------------------------------------------\n";
+}
+
 void processTasks(priority_queue<Task>& taskQueue, int& money, int& detectionRisk) {
     if (!taskQueue.empty()) {
         Task task = taskQueue.top();
         taskQueue.pop();
         cout << "Executando: " << task.name << " - Recompensa: $" << task.reward << "\n";
         money += task.reward;
-        detectionRisk -= 5;
+        detectionRisk -= rand() % 21;
     } else {
         cout << "Nenhuma tarefa pendente.\n";
     }
