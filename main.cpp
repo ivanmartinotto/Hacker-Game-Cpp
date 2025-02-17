@@ -2,31 +2,35 @@
 
 int main() {
     srand(time(0));
-    priority_queue<Task> taskQueue;
-    int money = 0;
-    int detectionRisk = 50;
+    FilaDePrioridade filaTarefas;
+    int saldo = 0;
+    int riscoDeteccao = 50;
     
-    while (detectionRisk > 0) {
-        if (detectionRisk > 99){
+    while (riscoDeteccao > 0) {
+        if (riscoDeteccao > 99){
             cout << "GAME OVER! Você foi detectado e perdeu todo seu dinheiro.";
             exit(0);
         }
-        cout << "\nSaldo: $" << money << " | Risco de Detecção: " << detectionRisk << "%\n";
-        displayTasks(taskQueue);
+        cout << "\nSaldo: $" << saldo << " | Risco de Detecção: " << riscoDeteccao << "%\n";
+        filaTarefas.exibirTarefas();
         cout << "1. Adicionar tarefa aleatória\n2. Executar tarefa\n3. Sair\nEscolha: ";
-        int choice;
-        cin >> choice;
+        int escolha;
+        cin >> escolha;
         
-        if (choice == 1) {
-            addRandomTask(taskQueue);
-            detectionRisk += rand() % 11;
-        } else if (choice == 2) {
-            processTasks(taskQueue, money, detectionRisk);
+        if (escolha == 1) {
+            adicionarTarefaAleatoria(filaTarefas);
+            riscoDeteccao += rand() % 11;
+        } else if (escolha == 2) {
+                if(filaTarefas.vazia()){
+                    cout << "Não há tarefas para executar. Escolha outra opção! \n" << endl;
+                } else {
+                    processarTarefas(filaTarefas, saldo, riscoDeteccao);
+                }    
         } else {
             break;
         }
     }
     
-    cout << "Jogo encerrado. Saldo final: $" << money << "\n";
+    cout << "Jogo encerrado. Saldo final: $" << saldo << "\n";
     return 0;
 }
